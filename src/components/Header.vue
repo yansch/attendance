@@ -1,7 +1,28 @@
 <template>
     <nav>
-        <v-navigation-drawer v-if="$store.state.isLoggedIn" v-model="drawer" app>
-
+        <v-navigation-drawer app v-if="$store.state.isLoggedIn" v-model="drawer">
+            <v-list>
+                <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                        <v-icon color="primary">mood</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ $store.state.user.name }}</v-list-tile-title>
+                        <v-list-tile-sub-title>{{ $store.state.user.email }}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+            <v-divider/>
+            <v-list>
+                <v-list-tile active-class="accent--text" v-for="item in items" :key="item.name" :to="item.path">
+                    <v-list-tile-action>
+                        <v-icon>{{ item.icon || item.path }}</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
         </v-navigation-drawer>
         <v-app-bar app fixed dark color="primary">
             <v-app-bar-nav-icon v-if="$store.state.isUserLoggedIn" @click="drawer = !drawer"></v-app-bar-nav-icon>

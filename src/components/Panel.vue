@@ -1,6 +1,6 @@
 <template>
     <v-layout align-center justify-center row fill-height>
-    <v-flex xs11 md4>
+    <v-flex xs11 sm7 md4>
         <div class="panel white elevation-2 ma-5" dark>
             <v-toolbar color="primary" dark dense flat>
                 <v-toolbar-title>{{ title }}</v-toolbar-title>

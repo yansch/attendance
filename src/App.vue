@@ -3,9 +3,11 @@
         <v-app>
             <page-header/>
             <main>
-                <v-container mt-5 pt-2 px-0 fluid>
-                    <router-view/>
-                </v-container>
+                <v-content>
+                    <v-container mt-5 pt-2 px-0 fluid>
+                        <router-view/>
+                    </v-container>
+                </v-content>
             </main>
         </v-app>
     </div>
