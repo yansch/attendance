@@ -24,7 +24,7 @@
         },
         methods: {
             login() {
-
+                this.$store.dispatch('login', {token: 'test123', user: {name: 'Jan', email: 'test'}})
             }
         }
     }

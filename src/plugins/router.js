@@ -3,18 +3,19 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login';
 import store from './store';
+import Dashboard from '../views/Dashboard';
 
 Vue.use(VueRouter);
 
 const ifAuthenticated = (to, from, next) => {
-    if (store.state.isUserLoggedIn)
+    if (store.state.isLoggedIn)
         next();
     else
         next('/login');
 };
 
 const ifNotAuthenticated = (to, from, next) => {
-    if (!store.state.isUserLoggedIn)
+    if (!store.state.isLoggedin)
         next();
     else
         next('/');
@@ -31,6 +32,12 @@ const routes = [
         name: 'login',
         component: Login,
         beforeEnter: ifNotAuthenticated
+    },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboard,
+        beforeEnter: ifAuthenticated
     }
 ];
 
