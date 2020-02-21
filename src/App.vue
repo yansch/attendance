@@ -3,21 +3,21 @@
         <v-app>
             <page-header/>
             <main>
-                <router-view/>
+                <v-container mt-5 pt-2 px-0 fluid>
+                    <router-view/>
+                </v-container>
             </main>
         </v-app>
     </div>
 </template>
 
 <script>
-    import HelloWorld from './components/HelloWorld';
     import PageHeader from './components/Header';
 
     export default {
         name: 'App',
         components: {
-            PageHeader,
-            HelloWorld,
+            PageHeader
         }
     };
 </script>
