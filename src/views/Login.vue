@@ -33,4 +33,8 @@
 
 <style scoped>
 
+    form {
+        text-align: center;
+    }
+
 </style>

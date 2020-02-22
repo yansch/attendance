@@ -3,6 +3,9 @@
         <v-navigation-drawer app v-if="$store.getters.isLoggedIn" v-model="drawer">
             <v-list>
                 <v-list-item>
+                    <v-list-item-avatar>
+                        <v-icon color="black">face</v-icon>
+                    </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>{{ $store.getters.user.name }}</v-list-item-title>
                         <v-list-item-subtitle>{{ $store.getters.user.email }}</v-list-item-subtitle>
@@ -57,9 +60,9 @@
                     name: 'Zeitplan',
                     icon: 'schedule'
                 }, {
-                    path: 'account',
-                    name: 'Account',
-                    icon: 'person'
+                    path: 'management',
+                    name: 'Management',
+                    icon: 'account_balance'
                 }]
             }
         }

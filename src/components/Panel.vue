@@ -20,17 +20,3 @@
         ]
     }
 </script>
-
-<style scoped>
-
-    div {
-
-    }
-
-    .panel {
-        text-align: center;
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-
-</style>
