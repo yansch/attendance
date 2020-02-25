@@ -1,19 +1,18 @@
 <template>
     <v-container>
         <panel title="Organisation">
-            <v-layout align-start justify-start>
-                <v-treeview
-                        open-on-click
-                        hoverable
-                        rounded
-                        open-all
-                        :items="organization"
-                >
-                    <template v-slot:prepend="{item}">
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </template>
-                </v-treeview>
-            </v-layout>
+            <v-card class="my-2" v-for="location in locations" :key="location.name">
+                <v-toolbar light dense flat>
+                    <v-icon class="mr-2">business</v-icon>
+                    <v-toolbar-title>{{ location.name }}</v-toolbar-title>
+                </v-toolbar>
+                <v-expansion-panels accordion>
+                    <v-expansion-panel v-for="department in location.departments"
+                                       :key="department.name">
+                        <v-expansion-panel-header>{{ department.name }}</v-expansion-panel-header>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-card>
         </panel>
     </v-container>
 </template>
@@ -26,48 +25,43 @@
         components: {Panel},
         data() {
             return {
-                organization: [
+                locations: [
                     {
                         name: 'Essen',
-                        icon: 'business',
-                        children: [
-                            {
-                                name: 'Marketing',
-                                icon: 'storefront',
-                                children: [
-                                    {
-                                        name: 'Jan',
-                                        icon: 'person'
-                                    }
-                                ]
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Berlin',
-                        icon: 'business',
-                        children: [
+                        departments: [
                             {
                                 name: 'Entwicklung',
-                                icon: 'storefront',
-                                children: [
+                                employees: [
                                     {
-                                        name: 'Sebastian',
-                                        icon: 'person'
+                                        name: 'Jan'
                                     }
                                 ]
                             },
                             {
                                 name: 'Vertrieb',
-                                icon: 'storefront'
+                                employees: []
                             },
                             {
                                 name: 'Marketing',
-                                icon: 'storefront'
+                                employees: []
                             },
+                        ]
+                    },
+                    {
+                        name: 'Berlin',
+                        departments: [
+                            {
+                                name: 'Entwicklung',
+                                employees: [
+                                    {
+                                        name: 'Sebastian'
+                                    }
+                                ]
+                            }
                         ]
                     }
                 ]
+
             }
         }
     }

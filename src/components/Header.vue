@@ -32,15 +32,9 @@
             <v-spacer/>
             <v-toolbar-items>
                 <v-btn text to="login" v-if="!$store.getters.isLoggedIn">Anmelden</v-btn>
-                <v-menu v-else>
-                    <v-btn text slot="activator">{{ $store.getters.user.name }}
-                        <v-icon class="ml-2">person</v-icon>
-                    </v-btn>
-                    <v-list>
-                        <v-list-item to="account">Account</v-list-item>
-                        <v-list-item @click="logout">Abmelden</v-list-item>
-                    </v-list>
-                </v-menu>
+                <v-btn v-else text @click="logout">Abmelden
+                    <v-icon class="ml-2">power_settings_new</v-icon>
+                </v-btn>
             </v-toolbar-items>
         </v-app-bar>
     </nav>
@@ -64,6 +58,12 @@
                     name: 'Management',
                     icon: 'account_balance'
                 }]
+            }
+        },
+        methods: {
+            logout() {
+                this.$store.dispatch('logout');
+                this.$router.push('/')
             }
         }
     }
