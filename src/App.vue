@@ -5,7 +5,9 @@
             <main>
                 <v-content>
                     <v-container mt-5 pt-2 px-0 fluid>
-                        <router-view/>
+                        <transition name="fade">
+                            <router-view/>
+                        </transition>
                     </v-container>
                 </v-content>
             </main>
