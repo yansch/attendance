@@ -5,7 +5,7 @@
             <main>
                 <v-content>
                     <v-container mt-5 pt-2 px-0 fluid>
-                        <transition name="fade">
+                        <transition name="slide-fade" mode="out-in">
                             <router-view/>
                         </transition>
                     </v-container>
@@ -25,3 +25,19 @@
         }
     };
 </script>
+
+
+<style scoped>
+
+    .slide-fade-enter-active {
+        transition: all .08s ease-in;
+    }
+    .slide-fade-leave-active {
+        transition: all .08s ease-out;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+
+</style>

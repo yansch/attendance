@@ -1,5 +1,8 @@
 <template>
-    <v-btn outlined><v-icon left>add</v-icon><slot/></v-btn>
+    <v-btn v-on="$listeners" outlined>
+        <v-icon left>add</v-icon>
+        <slot/>
+    </v-btn>
 </template>
 
 <script>

@@ -29,6 +29,7 @@
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>
+                            <add-employee-dialog :department="department.name"/>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -40,10 +41,11 @@
 <script>
     import Panel from '../components/Panel';
     import AddButton from '../components/AddButton';
+    import AddEmployeeDialog from '../components/AddEmployeeDialog';
 
     export default {
         name: 'Management',
-        components: {AddButton, Panel},
+        components: {AddEmployeeDialog, AddButton, Panel},
         data() {
             return {
                 locations: [
