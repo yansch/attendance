@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <panel title="Organisation">
-            <add-button>Neuer Standort</add-button>
+            <add-location-dialog/>
             <v-card class="my-2" v-for="location in locations" :key="location.name">
                 <v-toolbar light dense flat>
                     <v-icon class="mr-2">business</v-icon>
@@ -43,10 +43,11 @@
     import AddButton from '../components/AddButton';
     import AddEmployeeDialog from '../components/AddEmployeeDialog';
     import AddDepartmentDialog from '../components/AddDepartmentDialog';
+    import AddLocationDialog from '../components/AddLocationDialog';
 
     export default {
         name: 'Management',
-        components: {AddDepartmentDialog, AddEmployeeDialog, AddButton, Panel},
+        components: {AddLocationDialog, AddDepartmentDialog, AddEmployeeDialog, AddButton, Panel},
         data() {
             return {
                 locations: [

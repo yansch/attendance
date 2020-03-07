@@ -1,13 +1,13 @@
 <template>
-    <add-dialog title="Neue Abteilung"
+    <add-dialog title="Neuer Standort"
                 :button-disabled="name.length === 0"
                 button-text="Erstellen">
-        <v-card-text>Standort: {{ location.name }}</v-card-text>
         <v-card-text>
             <v-text-field
                     label="Name"
                     v-model="name"/>
         </v-card-text>
+
     </add-dialog>
 </template>
 
@@ -15,14 +15,11 @@
     import AddDialog from './AddDialog';
 
     export default {
-        name: 'AddDepartmentDialog',
-        props: [
-            'location'
-        ],
+        name: 'AddLocationDialog',
         components: {AddDialog},
         data() {
             return {
-                name: ''
+                name
             }
         }
     }

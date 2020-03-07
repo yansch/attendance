@@ -12,6 +12,12 @@
                 </v-btn>
             </v-card-title>
             <slot/>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn :disabled="buttonDisabled" large color="primary" text @click="submit">
+                    Erstellen
+                </v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -21,13 +27,21 @@
 
     export default {
         name: 'AddDialog',
-        props: [
-            'title'
-        ],
+        props: {
+            title: String,
+            buttonDisabled: Boolean,
+            buttonText: String
+        },
         components: {AddButton},
         data() {
             return {
                 dialog: false
+            }
+        },
+        methods: {
+            submit() {
+                this.$emit('submit');
+                this.dialog = false;
             }
         }
     }
