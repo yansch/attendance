@@ -7,7 +7,7 @@
                     <v-icon class="mr-2">business</v-icon>
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
-                    <add-button small>Neue Abteilung</add-button>
+                    <add-department-dialog :location="location"/>
                 </v-toolbar>
                 <v-expansion-panels accordion>
                     <v-expansion-panel v-for="department in location.departments"
@@ -29,7 +29,7 @@
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>
-                            <add-employee-dialog :department="department.name"/>
+                            <add-employee-dialog :department="department"/>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -42,10 +42,11 @@
     import Panel from '../components/Panel';
     import AddButton from '../components/AddButton';
     import AddEmployeeDialog from '../components/AddEmployeeDialog';
+    import AddDepartmentDialog from '../components/AddDepartmentDialog';
 
     export default {
         name: 'Management',
-        components: {AddEmployeeDialog, AddButton, Panel},
+        components: {AddDepartmentDialog, AddEmployeeDialog, AddButton, Panel},
         data() {
             return {
                 locations: [
