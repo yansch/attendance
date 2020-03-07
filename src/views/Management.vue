@@ -7,7 +7,7 @@
                     <v-icon class="mr-2">business</v-icon>
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
-                    <add-button class="float-right">Neue Abteilung</add-button>
+                    <add-button small>Neue Abteilung</add-button>
                 </v-toolbar>
                 <v-expansion-panels accordion>
                     <v-expansion-panel v-for="department in location.departments"
@@ -89,7 +89,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
