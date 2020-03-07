@@ -23,8 +23,8 @@
                                         {{ employee.name }}
                                     </v-list-item-content>
                                     <v-list-item-action>
-                                        <v-btn icon>
-                                            <v-icon>remove</v-icon>
+                                        <v-btn icon @click="removeEmployee(location, department, employee)">
+                                            <v-icon>close</v-icon>
                                         </v-btn>
                                     </v-list-item-action>
                                 </v-list-item>
@@ -84,6 +84,11 @@
                         ]
                     }
                 ]
+
+            }
+        },
+        methods: {
+            removeEmployee(location, department, employee) {
 
             }
         }

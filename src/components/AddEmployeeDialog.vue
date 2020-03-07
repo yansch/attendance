@@ -35,14 +35,16 @@
             </v-tabs>
             <v-tabs-items class="pa-6" v-model="tab">
                 <v-tab-item>
-                    <v-overflow-btn
+                    <v-select
+                            solo
                             :disabled="employees.length === 0"
                             persistent-hint
-                            :hint="employees.length > 0 ? null : 'Keine freien Mitarbeiter verfügbar.\n'+
-'                             Sie können einen neuen Mitarbeiter erstellen oder jemanden aus einer anderen Abteilung entfernen.'"
-                            no-data-text=""
-                            v-model="employees">
-                    </v-overflow-btn>
+                            :hint="employees.length > 0 ? null : 'Keine freien Mitarbeiter verfügbar. ' +
+                             'Sie können einen neuen Mitarbeiter erstellen oder jemanden aus einer anderen Abteilung entfernen.'"
+                            item-text="name"
+                            v-model="employeeToAdd"
+                            :items="employees">
+                    </v-select>
                 </v-tab-item>
                 <v-tab-item>
                     <v-row>
@@ -50,48 +52,57 @@
                             <v-text-field
                                     required
                                     label="Vorname"
-                                    v-model="newEmployee.firstName"/>
+                                    v-model="employeeToCreate.firstName"/>
                         </v-col>
                         <v-col xs="8" md="6">
                             <v-text-field
                                     required
                                     label="Nachname"
-                                    v-model="newEmployee.lastName"/>
+                                    v-model="employeeToCreate.lastName"/>
                         </v-col>
                     </v-row>
                     <v-row>
-                        <v-col xs="8" md="6">
+                        <v-col xs="10" md="8">
                             <v-text-field
                                     append-icon="email"
                                     required
                                     label="Email"
-                                    v-model="newEmployee.email"/>
+                                    v-model="employeeToCreate.email"/>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col xs="10" md="8">
+                            <v-text-field
+                                    append-icon="lock"
+                                    required
+                                    label="Passwort"
+                                    v-model="employeeToCreate.password"/>
                         </v-col>
                     </v-row>
                 </v-tab-item>
             </v-tabs-items>
-            <v-card v-if="!noEmployeesAvailable" class="mx-6 pa-4" outlined>
+            <v-card v-if="!noEmployeeAvailable" class="mx-6 pa-4" outlined>
                 <v-row>
                     <v-col xs="11">
                         <v-rating
                                 empty-icon="assignment_ind"
                                 full-icon="assignment_turned_in"
                                 length="4"
-                                v-model="newEmployee.permissionLvl"/>
+                                v-model="employeeToCreate.permissionLvl"/>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col xs="11">
-                        <span v-if="newEmployee.permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
-                        <span v-if="newEmployee.permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
-                        <span v-if="newEmployee.permissionLvl > 2"> und Werksleiter</span>
-                        <span v-if="newEmployee.permissionLvl > 3"> und Administrator</span>
+                        <span v-if="employeeToCreate.permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
+                        <span v-if="employeeToCreate.permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
+                        <span v-if="employeeToCreate.permissionLvl > 2"> und Werksleiter</span>
+                        <span v-if="employeeToCreate.permissionLvl > 3"> und Administrator</span>
                     </v-col>
                 </v-row>
             </v-card>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="noEmployeesAvailable" large color="primary" text @click="dialog = false">Hinzufügen
+                <v-btn :disabled="noEmployeeAvailable" large color="primary" text @click="dialog = false">Hinzufügen
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -112,10 +123,12 @@
                 dialog: false,
                 tab: null,
                 employees: [],
-                newEmployee: {
+                employeeToAdd: null,
+                employeeToCreate: {
                     firstName: '',
                     lastName: '',
                     email: '',
+                    password: '',
                     permissionLvl: 1
                 },
             }
@@ -126,13 +139,9 @@
             }
         },
         computed: {
-            noEmployeesAvailable() {
-                return this.tab === 0 && this.employees.length === 0;
+            noEmployeeAvailable() {
+                return this.tab === 0 && this.employeeToAdd == null;
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>
