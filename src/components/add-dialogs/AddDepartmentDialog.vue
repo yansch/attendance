@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import AddDialog from './AddDialog';
+    import AddDialog from '../AddDialog';
 
     export default {
         name: 'AddDepartmentDialog',

@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" :max-width="$vuetify.breakpoint.mdAndDown ? '90%' : '30%'">
+    <v-dialog v-model="dialog" :max-width="width">
         <template v-slot:activator="{ on }">
             <add-button small v-on="on">{{ title }}</add-button>
         </template>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import AddButton from './AddButton';
+    import AddButton from './add-dialogs/AddButton';
 
     export default {
         name: 'AddDialog',
@@ -42,6 +42,19 @@
             submit() {
                 this.$emit('submit');
                 this.dialog = false;
+            }
+        },
+        computed: {
+            width() {
+                switch(this.$vuetify.breakpoint.name) {
+                    case 'xs':
+                    case 'sm':
+                        return '90%';
+                    case 'md':
+                        return '70%';
+                    default:
+                        return '50%';
+                }
             }
         }
     }

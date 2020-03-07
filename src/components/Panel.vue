@@ -1,6 +1,6 @@
 <template>
     <v-layout align-center justify-center row fill-height>
-    <v-flex xs11 sm9 md7 lg5>
+    <v-flex xs12 sm9 md7 lg5>
         <div class="panel white elevation-2 ma-5">
             <v-toolbar color="primary" dark dense flat>
                 <v-toolbar-title>{{ title }}</v-toolbar-title>
@@ -15,6 +15,7 @@
 
 <script>
     export default {
+        name: 'Panel',
         props: [
             'title'
         ]

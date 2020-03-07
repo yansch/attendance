@@ -45,7 +45,7 @@
         name: 'Header',
         data() {
             return {
-                drawer: true,
+                drawer: this.$vuetify.breakpoint.mdAndUp,
                 items: [{
                     path: 'dashboard',
                     name: 'Dashboard'

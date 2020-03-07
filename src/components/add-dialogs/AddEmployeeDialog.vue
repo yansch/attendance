@@ -30,6 +30,7 @@
                             persistent-hint
                             :hint="employees.length > 0 ? null : 'Keine freien Mitarbeiter verfügbar. ' +
                              'Sie können einen neuen Mitarbeiter erstellen oder jemanden aus einer anderen Abteilung entfernen.'"
+                            label="Mitarbeiter auswählen"
                             item-text="name"
                             v-model="employeeToAdd"
                             :items="employees">
@@ -84,7 +85,7 @@
                     <v-col xs="11">
                         <span v-if="employeeToCreate.permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
                         <span v-if="employeeToCreate.permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
-                        <span v-if="employeeToCreate.permissionLvl > 2"> und Werksleiter</span>
+                        <span v-if="employeeToCreate.permissionLvl > 2"> und Standortsleiter</span>
                         <span v-if="employeeToCreate.permissionLvl > 3"> und Administrator</span>
                     </v-col>
                 </v-row>
@@ -95,7 +96,7 @@
 
 <script>
     import AddButton from './AddButton';
-    import AddDialog from './AddDialog';
+    import AddDialog from '../AddDialog';
 
     export default {
         name: 'AddEmployeeDialog',

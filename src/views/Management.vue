@@ -40,9 +40,9 @@
 
 <script>
     import Panel from '../components/Panel';
-    import AddButton from '../components/AddButton';
-    import AddEmployeeDialog from '../components/AddEmployeeDialog';
-    import AddDepartmentDialog from '../components/AddDepartmentDialog';
+    import AddButton from '../components/add-dialogs/AddButton';
+    import AddEmployeeDialog from '../components/add-dialogs/AddEmployeeDialog';
+    import AddDepartmentDialog from '../components/add-dialogs/AddDepartmentDialog';
     import AddLocationDialog from '../components/AddLocationDialog';
 
     export default {
