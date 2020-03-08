@@ -70,24 +70,27 @@
                     </v-row>
                 </v-tab-item>
             </v-tabs-items>
-            <v-card v-if="!noEmployeeAvailable" class="mx-2 pa-4" outlined>
-                <v-row>
-                    <v-col xs="11">
-                        <v-rating
-                                empty-icon="assignment_ind"
-                                full-icon="assignment_turned_in"
-                                length="4"
-                                v-model="employeeToCreate.permissionLvl"/>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col xs="11">
-                        <span v-if="employeeToCreate.permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
-                        <span v-if="employeeToCreate.permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
-                        <span v-if="employeeToCreate.permissionLvl > 2"> und Standortsleiter</span>
-                        <span v-if="employeeToCreate.permissionLvl > 3"> und Administrator</span>
-                    </v-col>
-                </v-row>
+            <v-card v-if="!noEmployeeAvailable" class="mx-2" outlined>
+                <v-card-title class="grey--text">Berechtigungen</v-card-title>
+                <v-card-text>
+                    <v-row>
+                        <v-col xs="11">
+                            <v-rating
+                                    empty-icon="assignment_ind"
+                                    full-icon="assignment_turned_in"
+                                    length="4"
+                                    v-model="employeeToCreate.permissionLvl"/>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col xs="11">
+                            <span v-if="employeeToCreate.permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
+                            <span v-if="employeeToCreate.permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
+                            <span v-if="employeeToCreate.permissionLvl > 2"> und Standortsleiter</span>
+                            <span v-if="employeeToCreate.permissionLvl > 3"> und Administrator</span>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
             </v-card>
         </v-card-text>
     </add-dialog>

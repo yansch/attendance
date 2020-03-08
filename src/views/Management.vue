@@ -4,7 +4,7 @@
             <add-location-dialog/>
             <v-card class="my-2" v-for="location in locations" :key="location.name">
                 <v-toolbar light dense flat>
-                    <v-icon class="mr-2">business</v-icon>
+                    <v-icon left>business</v-icon>
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
                     <add-department-dialog :location="location"/>
