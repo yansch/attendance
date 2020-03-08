@@ -1,7 +1,6 @@
 <template>
-    <add-dialog title="Neuer Standort"
-                :button-disabled="name.length === 0"
-                button-text="Erstellen">
+    <add-dialog title="Standort"
+                :button-disabled="name.length === 0">
         <v-card-text>
             <v-text-field
                     label="Name"

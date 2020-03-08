@@ -1,11 +1,14 @@
 <template>
     <v-dialog v-model="dialog" :max-width="width">
         <template v-slot:activator="{ on }">
-            <add-button small v-on="on">{{ title }}</add-button>
+            <v-btn small outlined v-on="on">
+                <v-icon left>add</v-icon>
+                {{ title }}
+            </v-btn>
         </template>
         <v-card>
             <v-card-title>
-                <span class="headline">{{ title }}</span>
+                <span class="headline">{{ title }} hinzufügen</span>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="dialog = false">
                     <v-icon>close</v-icon>
@@ -15,7 +18,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn :disabled="buttonDisabled" large color="primary" text @click="submit">
-                    Erstellen
+                    Hinzufügen
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -29,8 +32,7 @@
         name: 'AddDialog',
         props: {
             title: String,
-            buttonDisabled: Boolean,
-            buttonText: String
+            buttonDisabled: Boolean
         },
         components: {AddButton},
         data() {
@@ -46,14 +48,16 @@
         },
         computed: {
             width() {
-                switch(this.$vuetify.breakpoint.name) {
+                switch (this.$vuetify.breakpoint.name) {
                     case 'xs':
                     case 'sm':
                         return '90%';
                     case 'md':
                         return '70%';
-                    default:
+                    case 'lg':
                         return '50%';
+                    default:
+                        return '30%';
                 }
             }
         }

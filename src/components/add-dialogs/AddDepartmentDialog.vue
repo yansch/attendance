@@ -1,7 +1,6 @@
 <template>
-    <add-dialog title="Neue Abteilung"
-                :button-disabled="name.length === 0"
-                button-text="Erstellen">
+    <add-dialog title="Abteilung"
+                :button-disabled="name.length === 0">
         <v-card-text>Standort: {{ location.name }}</v-card-text>
         <v-card-text>
             <v-text-field

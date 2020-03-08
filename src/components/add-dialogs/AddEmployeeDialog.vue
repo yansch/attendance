@@ -1,8 +1,7 @@
 <template>
     <add-dialog
-            title="Mitarbeiter hinzufügen"
-            :button-disabled="noEmployeeAvailable"
-            button-text="Hinzufügen">
+            title="Mitarbeiter"
+            :button-disabled="noEmployeeAvailable">
         <v-card-text>
             <span>Abteilung: {{ department.name }}</span>
         </v-card-text>
@@ -22,7 +21,7 @@
                     <v-icon v-else>person_add</v-icon>
                 </v-tab>
             </v-tabs>
-            <v-tabs-items class="pt-4 px-4" v-model="tab">
+            <v-tabs-items class="pt-4 px-2" v-model="tab">
                 <v-tab-item>
                     <v-select
                             solo
@@ -71,7 +70,7 @@
                     </v-row>
                 </v-tab-item>
             </v-tabs-items>
-            <v-card v-if="!noEmployeeAvailable" class="mx-4 pa-4" outlined>
+            <v-card v-if="!noEmployeeAvailable" class="mx-2 pa-4" outlined>
                 <v-row>
                     <v-col xs="11">
                         <v-rating
@@ -107,7 +106,7 @@
         data() {
             return {
                 dialog: false,
-                tab: null,
+                tab: 0,
                 employees: [],
                 employeeToAdd: null,
                 employeeToCreate: {
