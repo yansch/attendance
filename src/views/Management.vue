@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <panel title="Organisation">
-            <add-location-dialog/>
             <v-card class="my-2" v-for="location in locations" :key="location.name">
                 <v-toolbar light dense flat>
                     <v-icon left>business</v-icon>
@@ -34,6 +33,9 @@
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-card>
+            <v-container class="pa-2 pl-0">
+                <add-location-dialog/>
+            </v-container>
         </panel>
     </v-container>
 </template>

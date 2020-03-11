@@ -1,11 +1,14 @@
 <template>
     <v-container>
-        <h2>{{ title }}</h2>
-        <v-list>
+        <h2><v-icon left :color="color">{{ icon }}</v-icon>{{ title }}</h2>
+        <v-divider class="mt-2"/>
+        <v-list v-if="employees.length > 0" dense>
             <v-list-item v-for="employee in toBeShown" :key="employee.name">
+                <v-icon left>person</v-icon>
                 {{ employee.name }}
             </v-list-item>
         </v-list>
+        <v-icon v-else class="mx-4 mt-4">remove</v-icon>
         <v-btn text v-if="employees.length > 5" @click="showAll = !showAll">
             <div v-if="!showAll">
                 <v-icon left>expand_more</v-icon>
@@ -23,7 +26,8 @@
     export default {
         name: 'EmployeeStatusList',
         props: {
-            employees: Array
+            employees: Array,
+            type: String
         },
         data() {
             return {
@@ -32,7 +36,7 @@
         },
         computed: {
             title() {
-                switch (this.employees[0].status) {
+                switch (this.type) {
                     case 'office':
                         return 'Anwesend';
                     case 'home_office':
@@ -41,8 +45,19 @@
                         return 'Abwesend';
                 }
             },
+            icon() {
+                switch (this.type) {
+                    case 'office':
+                        return 'check_circle';
+                    case 'home_office':
+                        return 'trip_origin';
+                    case 'absent':
+                        return 'cancel';
+                }
+
+            },
             color() {
-                switch (this.employees[0].status) {
+                switch (this.type) {
                     case 'office':
                         return 'success';
                     case 'home_office':

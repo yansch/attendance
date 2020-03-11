@@ -3,7 +3,7 @@
         <v-flex xs11 md9>
             <v-card v-for="location in locations" :key="location.name">
                 <v-toolbar>
-                    <v-icon left>business</v-icon>
+                    <v-icon large left>business</v-icon>
                     <v-toolbar-title class="headline">{{ location.name }}</v-toolbar-title>
                 </v-toolbar>
                 <attendance-bar height="15px"
@@ -18,16 +18,19 @@
                         <v-card-text>
                             <v-layout justify-space-between>
                                 <v-row>
-                                    <v-col>
+                                    <v-col xs12 md4>
                                         <employee-status-list
+                                                type="office"
                                                 :employees="department.employees.filter(e => e.status === 'office')"/>
                                     </v-col>
-                                    <v-col>
+                                    <v-col xs12 md4>
                                         <employee-status-list
+                                                type="home_office"
                                                 :employees="department.employees.filter(e => e.status === 'home_office')"/>
                                     </v-col>
-                                    <v-col>
+                                    <v-col xs12 md4>
                                         <employee-status-list
+                                                type="absent"
                                                 :employees="department.employees.filter(e => e.status === 'absent')"/>
                                     </v-col>
                                 </v-row>
