@@ -9,34 +9,11 @@
                 <attendance-bar height="15px"
                                 :employees="location.departments.flatMap(d => d.employees)"/>
                 <v-card-text>
-                    <v-card v-for="department in location.departments" :key="location.name">
-                        <v-toolbar>
-                            <v-icon left>storefront</v-icon>
-                            <v-toolbar-title>{{ department.name }}</v-toolbar-title>
-                        </v-toolbar>
-                        <attendance-bar height="10px" :employees="department.employees"/>
-                        <v-card-text>
-                            <v-layout justify-space-between>
-                                <v-row>
-                                    <v-col xs12 md4>
-                                        <employee-status-list
-                                                type="office"
-                                                :employees="department.employees.filter(e => e.status === 'office')"/>
-                                    </v-col>
-                                    <v-col xs12 md4>
-                                        <employee-status-list
-                                                type="home_office"
-                                                :employees="department.employees.filter(e => e.status === 'home_office')"/>
-                                    </v-col>
-                                    <v-col xs12 md4>
-                                        <employee-status-list
-                                                type="absent"
-                                                :employees="department.employees.filter(e => e.status === 'absent')"/>
-                                    </v-col>
-                                </v-row>
-                            </v-layout>
-                        </v-card-text>
-                    </v-card>
+                    <department-status-card
+                            class="ma-2"
+                            v-for="department in location.departments"
+                            :key="location.name"
+                            :department="department"/>
                 </v-card-text>
             </v-card>
         </v-flex>
@@ -45,11 +22,11 @@
 
 <script>
     import AttendanceBar from '../components/AttendanceBar';
-    import EmployeeStatusList from '../components/EmployeeStatusList';
+    import DepartmentStatusCard from './DepartmentStatusCard';
 
     export default {
         name: 'Dashboard',
-        components: {EmployeeStatusList, AttendanceBar},
+        components: {DepartmentStatusCard, AttendanceBar},
         data() {
             return {
                 locations: [

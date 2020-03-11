@@ -1,6 +1,9 @@
 <template>
     <v-container>
-        <h2><v-icon left :color="color">{{ icon }}</v-icon>{{ title }}</h2>
+        <h2>
+            <v-icon left :color="color">{{ icon }}</v-icon>
+            {{ title }}
+        </h2>
         <v-divider class="mt-2"/>
         <v-list v-if="employees.length > 0" dense>
             <v-list-item v-for="employee in toBeShown" :key="employee.name">
