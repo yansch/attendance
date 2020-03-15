@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login';
 import store from './store';
 import Dashboard from '../views/Dashboard';
-import Timetable from '../views/Timetable';
+import MyStatus from '../views/MyStatus';
 import Management from '../views/Management';
 
 Vue.use(VueRouter);
@@ -17,7 +17,7 @@ const ifAuthenticated = (to, from, next) => {
 };
 
 const ifNotAuthenticated = (to, from, next) => {
-    if (!store.getters.isLoggedin)
+    if (!store.getters.isLoggedIn)
         next();
     else
         next('/');
@@ -42,9 +42,9 @@ const routes = [
         beforeEnter: ifAuthenticated
     },
     {
-        path: '/timetable',
-        name: 'timetable',
-        component: Timetable,
+        path: '/my-status',
+        name: 'my-status',
+        component: MyStatus,
         beforeEnter: ifAuthenticated
     },
     {

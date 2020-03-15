@@ -50,8 +50,8 @@
                     path: 'dashboard',
                     name: 'Dashboard'
                 }, {
-                    path: 'timetable',
-                    name: 'Zeitplan',
+                    path: 'my-status',
+                    name: 'Mein Status',
                     icon: 'schedule'
                 }, {
                     path: 'management',

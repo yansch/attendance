@@ -26,11 +26,13 @@
 </template>
 
 <script>
+    import status_styling from '../services/status_styling';
+
     export default {
         name: 'EmployeeStatusList',
         props: {
             employees: Array,
-            type: String
+            type: Number
         },
         data() {
             return {
@@ -39,35 +41,13 @@
         },
         computed: {
             title() {
-                switch (this.type) {
-                    case 'office':
-                        return 'Anwesend';
-                    case 'home_office':
-                        return 'Home Office';
-                    case 'absent':
-                        return 'Abwesend';
-                }
+                return status_styling.names[this.type]
             },
             icon() {
-                switch (this.type) {
-                    case 'office':
-                        return 'check_circle';
-                    case 'home_office':
-                        return 'trip_origin';
-                    case 'absent':
-                        return 'cancel';
-                }
-
+                return status_styling.icons[this.type]
             },
             color() {
-                switch (this.type) {
-                    case 'office':
-                        return 'success';
-                    case 'home_office':
-                        return 'accent';
-                    case 'absent':
-                        return 'error';
-                }
+                return status_styling.colors[this.type]
             },
             toBeShown() {
                 return this.showAll ? this.employees : this.employees.slice(0, 5)

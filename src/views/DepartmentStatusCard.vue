@@ -15,17 +15,17 @@
                     <v-row>
                         <v-col xs12 md4>
                             <employee-status-list
-                                    type="office"
+                                    type="0"
                                     :employees="department.employees.filter(e => e.status === 'office')"/>
                         </v-col>
                         <v-col xs12 md4>
                             <employee-status-list
-                                    type="home_office"
+                                    type="1"
                                     :employees="department.employees.filter(e => e.status === 'home_office')"/>
                         </v-col>
                         <v-col xs12 md4>
                             <employee-status-list
-                                    type="absent"
+                                    type="2"
                                     :employees="department.employees.filter(e => e.status === 'absent')"/>
                         </v-col>
                     </v-row>
