@@ -15,17 +15,17 @@
                     <v-row>
                         <v-col xs12 md4>
                             <employee-status-list
-                                    type="0"
+                                    :type="0"
                                     :employees="department.employees.filter(e => e.status === 'office')"/>
                         </v-col>
                         <v-col xs12 md4>
                             <employee-status-list
-                                    type="1"
+                                    :type="1"
                                     :employees="department.employees.filter(e => e.status === 'home_office')"/>
                         </v-col>
                         <v-col xs12 md4>
                             <employee-status-list
-                                    type="2"
+                                    :type="2"
                                     :employees="department.employees.filter(e => e.status === 'absent')"/>
                         </v-col>
                     </v-row>
@@ -42,7 +42,7 @@
         name: 'DepartmentStatusCard',
         components: {AttendanceBar, EmployeeStatusList},
         props: {
-            department: Array
+            department: Object
         },
         data() {
             return {

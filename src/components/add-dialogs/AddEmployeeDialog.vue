@@ -6,7 +6,6 @@
             <span>Abteilung: {{ department.name }}</span>
         </v-card-text>
         <v-card-text>
-
             <v-tabs v-model="tab" fixed-tabs>
                 <v-tab>
                     <span v-if="$vuetify.breakpoint.smAndUp">
