@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container mt-8>
         <panel title="Organisation">
             <v-card class="my-2" v-for="location in locations" :key="location.name">
                 <v-toolbar light dense flat>
@@ -22,9 +22,23 @@
                                         {{ employee.name }}
                                     </v-list-item-content>
                                     <v-list-item-action>
-                                        <v-btn icon @click="removeEmployee(location, department, employee)">
-                                            <v-icon>close</v-icon>
-                                        </v-btn>
+                                        <v-menu open-on-hover top offset-y>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon v-on="on">
+                                                    <v-icon>close</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-list>
+                                                <v-list-item @click="">
+                                                    <v-icon left>remove_circle_outline</v-icon>
+                                                    Aus dieser Abteilung entfernen
+                                                </v-list-item>
+                                                <v-list-item @click="">
+                                                    <v-icon left>delete_outline</v-icon>
+                                                    Mitarbeiter löschen
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>

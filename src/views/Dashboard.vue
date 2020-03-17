@@ -1,5 +1,5 @@
 <template>
-    <v-layout align-center justify-center row fill-height>
+    <v-layout mt-10 align-center justify-center row fill-height>
         <v-flex xs11 md9>
             <v-card v-for="location in locations" :key="location.name">
                 <v-toolbar>

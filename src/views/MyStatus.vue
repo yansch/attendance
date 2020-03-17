@@ -1,5 +1,5 @@
 <template>
-    <panel title="Mein Status">
+    <panel class="mt-8" title="Mein Status">
         <v-row>
             <v-icon :color="color" class="ma-4">{{ icon }}</v-icon>
             <v-flex xs10 md8 lg6>
@@ -16,6 +16,7 @@
                           label="Beschreibung"
                           :placeholder="placeholder"/>
         </v-slide-y-transition>
+        <v-btn class="ma-1" color="primary">Bestätigen</v-btn>
     </panel>
 </template>
 
@@ -34,14 +35,12 @@
         },
         computed: {
             names() {
-                let names = [];
-                for (let i = 0; i < status_styling.names.length; i++) {
-                    names.push({
-                        id: i,
-                        name: status_styling.names[i]
-                    })
-                }
-                return names
+                return status_styling.names.map(s => {
+                    return {
+                        id: status_styling.names.indexOf(s),
+                        name: s
+                    }
+                });
             },
             icon() {
                 return status_styling.icons[this.status]

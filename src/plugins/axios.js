@@ -20,8 +20,7 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
     function (config) {
         if (store.getters.isLoggedIn) {
-            const token = store.getters.token;
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers.Authorization = store.getters.token;
         }
         return config;
     },
@@ -34,7 +33,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
     function (response) {
-        // Do something with response data
+        store.dispatch('setToken', response.data.token);
         return response;
     },
     function (error) {

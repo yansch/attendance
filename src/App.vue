@@ -4,7 +4,7 @@
             <page-header/>
             <main>
                 <v-content>
-                    <v-container mt-5 pt-2 px-0 fluid>
+                    <v-container pa-0 px-0 fluid>
                         <transition name="slide-fade" mode="out-in">
                             <router-view/>
                         </transition>
