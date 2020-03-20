@@ -1,6 +1,7 @@
 <template>
     <add-dialog
             title="Mitarbeiter"
+            @submit="create"
             :button-disabled="noEmployeeAvailable">
         <v-card-text>
             <span>Abteilung: {{ department.name }}</span>
@@ -96,7 +97,6 @@
 </template>
 
 <script>
-    import AddButton from './AddButton';
     import AddDialog from '../AddDialog';
 
     export default {
@@ -104,7 +104,7 @@
         props: [
             'department'
         ],
-        components: {AddDialog, AddButton},
+        components: {AddDialog},
         data() {
             return {
                 dialog: false,
@@ -123,6 +123,7 @@
         methods: {
             create() {
                 this.dialog = false;
+                this.$emit('create', employee)
             }
         },
         computed: {

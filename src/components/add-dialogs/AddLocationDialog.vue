@@ -1,5 +1,6 @@
 <template>
     <add-dialog title="Standort"
+                @submit="$emit('create', {name})"
                 :button-disabled="name.length === 0">
         <v-card-text>
             <v-text-field
@@ -11,14 +12,14 @@
 </template>
 
 <script>
-    import AddDialog from './AddDialog';
+    import AddDialog from '../AddDialog';
 
     export default {
         name: 'AddLocationDialog',
         components: {AddDialog},
         data() {
             return {
-                name
+                name: ''
             }
         }
     }

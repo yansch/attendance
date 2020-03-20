@@ -26,7 +26,6 @@
 </template>
 
 <script>
-    import AddButton from './add-dialogs/AddButton';
 
     export default {
         name: 'AddDialog',
@@ -34,7 +33,6 @@
             title: String,
             buttonDisabled: Boolean
         },
-        components: {AddButton},
         data() {
             return {
                 dialog: false

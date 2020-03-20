@@ -20,7 +20,7 @@ const ifNotAuthenticated = (to, from, next) => {
     if (!store.getters.isLoggedIn)
         next();
     else
-        next('/');
+        next('/dashboard');
 };
 
 const routes = [

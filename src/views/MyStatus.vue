@@ -22,7 +22,7 @@
 
 <script>
     import Panel from '../components/Panel';
-    import status_styling from '../services/status_styling';
+    import styling from '../services/styling';
 
     export default {
         name: 'MyStatus',
@@ -35,18 +35,18 @@
         },
         computed: {
             names() {
-                return status_styling.names.map(s => {
+                return styling.status_names.map(s => {
                     return {
-                        id: status_styling.names.indexOf(s),
+                        id: styling.status_names.indexOf(s),
                         name: s
                     }
                 });
             },
             icon() {
-                return status_styling.icons[this.status]
+                return styling.status_icons[this.status]
             },
             color() {
-                return status_styling.colors[this.status]
+                return styling.status_colors[this.status]
             },
             placeholder() {
                 return ['', 'Home Office, Konferenz, ...', 'Urlaub, Krankheit, ...'][this.status]

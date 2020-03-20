@@ -4,15 +4,10 @@ import Vue from 'vue';
 import axios from 'axios';
 import store from './store';
 
-// Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
 let config = {
-    baseURL: process.env.baseURL || process.env.apiUrl || ''
-    // timeout: 60 * 1000, // Timeout
-    // withCredentials: true, // Check cross-site Access-Control
+    baseURL: process.env.NODE_ENV === 'development'
+        ? 'http://bhr24.sytes.net:8080/Attendance-war/resources'
+        : 'http://localhost:5555'
 };
 
 const _axios = axios.create(config);
@@ -30,10 +25,9 @@ _axios.interceptors.request.use(
     }
 );
 
-// Add a response interceptor
 _axios.interceptors.response.use(
     function (response) {
-        store.dispatch('setToken', response.data.token);
+        //store.dispatch('setToken', response.data.token);
         return response;
     },
     function (error) {

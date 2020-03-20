@@ -7,7 +7,7 @@
                  style="font-weight: 900; text-shadow: 2px 2px #000000">
             </div>
             <router-link to="/login">
-                <v-btn class="blue lighten-2 mt-5" dark large>
+                <v-btn color="primary" dark large>
                     Anmelden
                 </v-btn>
             </router-link>

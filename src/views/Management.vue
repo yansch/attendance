@@ -7,19 +7,22 @@
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
                     <add-department-dialog :location="location"/>
+                    <v-btn icon>
+                        <v-icon>more_vert</v-icon>
+                    </v-btn>
                 </v-toolbar>
                 <v-expansion-panels accordion>
-                    <v-expansion-panel v-for="department in location.departments"
-                                       :key="department.name">
+                    <v-expansion-panel v-for="department in location.departmentList"
+                                       :key="department.id">
                         <v-expansion-panel-header>{{ department.name }}</v-expansion-panel-header>
                         <v-expansion-panel-content>
                             <v-list dense>
-                                <v-list-item v-for="employee in department.employees" :key="employee.name">
+                                <v-list-item v-for="employee in department.employeeList" :key="employee.id">
                                     <v-list-item-avatar>
                                         <v-icon>person</v-icon>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
-                                        {{ employee.name }}
+                                        {{ employee.firstname}} {{employee.lastname}}
                                     </v-list-item-content>
                                     <v-list-item-action>
                                         <v-menu open-on-hover top offset-y>
@@ -33,7 +36,7 @@
                                                     <v-icon left>remove_circle_outline</v-icon>
                                                     Aus dieser Abteilung entfernen
                                                 </v-list-item>
-                                                <v-list-item @click="">
+                                                <v-list-item @click="deleteEmployee(department, employee)">
                                                     <v-icon left>delete_outline</v-icon>
                                                     Mitarbeiter löschen
                                                 </v-list-item>
@@ -48,7 +51,7 @@
                 </v-expansion-panels>
             </v-card>
             <v-container class="pa-2 pl-0">
-                <add-location-dialog/>
+                <add-location-dialog @create="createLocation"/>
             </v-container>
         </panel>
     </v-container>
@@ -56,58 +59,38 @@
 
 <script>
     import Panel from '../components/Panel';
-    import AddButton from '../components/add-dialogs/AddButton';
     import AddEmployeeDialog from '../components/add-dialogs/AddEmployeeDialog';
     import AddDepartmentDialog from '../components/add-dialogs/AddDepartmentDialog';
-    import AddLocationDialog from '../components/AddLocationDialog';
+    import AddLocationDialog from '../components/add-dialogs/AddLocationDialog';
+    import {EmployeeService, LocationService} from '../services/api/Api';
 
     export default {
         name: 'Management',
-        components: {AddLocationDialog, AddDepartmentDialog, AddEmployeeDialog, AddButton, Panel},
+        components: {AddLocationDialog, AddDepartmentDialog, AddEmployeeDialog, Panel},
         data() {
             return {
-                locations: [
-                    {
-                        name: 'Essen',
-                        departments: [
-                            {
-                                name: 'Entwicklung',
-                                employees: [
-                                    {
-                                        name: 'Jan'
-                                    }
-                                ]
-                            },
-                            {
-                                name: 'Vertrieb',
-                                employees: []
-                            },
-                            {
-                                name: 'Marketing',
-                                employees: []
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Berlin',
-                        departments: [
-                            {
-                                name: 'Entwicklung',
-                                employees: [
-                                    {
-                                        name: 'Sebastian'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+                locations: []
+            }
+        },
+        created() {
+            LocationService.all()
+                .then(response => {
+                    this.locations = response.data
+                })
+        },
+        computed: {
+            icon(employee) {
 
             }
         },
         methods: {
-            removeEmployee(location, department, employee) {
-
+            deleteEmployee(department, employee) {
+                this.$delete(department.employeeList, department.employeeList.indexOf(employee));
+                EmployeeService.delete(employee.id);
+            },
+            createLocation(location) {
+                this.locations.push(location);
+                LocationService.create(location);
             }
         }
     }

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import status_styling from '../services/status_styling';
+    import styling from '../services/styling';
 
     export default {
         name: 'EmployeeStatusList',
@@ -41,13 +41,13 @@
         },
         computed: {
             title() {
-                return status_styling.names[this.type]
+                return styling.status_names[this.type]
             },
             icon() {
-                return status_styling.icons[this.type]
+                return styling.status_icons[this.type]
             },
             color() {
-                return status_styling.colors[this.type]
+                return styling.status_colors[this.type]
             },
             toBeShown() {
                 return this.showAll ? this.employees : this.employees.slice(0, 5)
