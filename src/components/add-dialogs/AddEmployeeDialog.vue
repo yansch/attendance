@@ -1,7 +1,8 @@
 <template>
     <add-dialog
             title="Mitarbeiter"
-            @submit="create"
+            v-model="active"
+            @submit="createEmployee()"
             :button-disabled="noEmployeeAvailable">
         <v-card-text>
             <span>Abteilung: {{ department.name }}</span>
@@ -98,6 +99,7 @@
 
 <script>
     import AddDialog from '../AddDialog';
+    import {dialog} from '../../mixins/dialog';
 
     export default {
         name: 'AddEmployeeDialog',
@@ -105,9 +107,9 @@
             'department'
         ],
         components: {AddDialog},
+        mixins: [dialog],
         data() {
             return {
-                dialog: false,
                 tab: 0,
                 employees: [],
                 employeeToAdd: null,
@@ -121,9 +123,8 @@
             }
         },
         methods: {
-            create() {
-                this.dialog = false;
-                this.$emit('create', employee)
+            createEmployee() {
+                this.close();
             }
         },
         computed: {

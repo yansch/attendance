@@ -1,7 +1,7 @@
 <template>
-    <v-dialog v-model="dialog" :max-width="width">
-        <template v-slot:activator="{ on }">
-            <v-btn small outlined v-on="on">
+    <v-dialog v-model="show" :max-width="width">
+        <template v-slot:activator="{}">
+            <v-btn @click="show = true" small outlined>
                 <v-icon left>add</v-icon>
                 {{ title }}
             </v-btn>
@@ -10,14 +10,14 @@
             <v-card-title>
                 <span class="headline">{{ title }} hinzufügen</span>
                 <v-spacer></v-spacer>
-                <v-btn icon @click="dialog = false">
+                <v-btn icon @click.stop="show = false">
                     <v-icon>close</v-icon>
                 </v-btn>
             </v-card-title>
             <slot/>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="buttonDisabled" large color="primary" text @click="submit">
+                <v-btn :loading="loading" :disabled="buttonDisabled" large color="primary" text @click="submit">
                     Hinzufügen
                 </v-btn>
             </v-card-actions>
@@ -31,20 +31,30 @@
         name: 'AddDialog',
         props: {
             title: String,
-            buttonDisabled: Boolean
+            buttonDisabled: Boolean,
+            value: Boolean
         },
         data() {
             return {
-                dialog: false
+                loading: false
             }
         },
         methods: {
             submit() {
+                this.loading = true;
                 this.$emit('submit');
-                this.dialog = false;
             }
         },
         computed: {
+            show: {
+                get () {
+                    return this.value
+                },
+                set (value) {
+                    this.$emit('input', value);
+                    this.loading = false;
+                }
+            },
             width() {
                 switch (this.$vuetify.breakpoint.name) {
                     case 'xs':

@@ -49,7 +49,7 @@
                 return styling.status_colors[this.status]
             },
             placeholder() {
-                return ['', 'Home Office, Konferenz, ...', 'Urlaub, Krankheit, ...'][this.status]
+                return ['', 'Home Office, Konferenz, ...', 'Urlaub, Krankheit, Feierabend ...'][this.status]
             }
         }
     }

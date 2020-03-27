@@ -1,12 +1,12 @@
 <template>
     <v-container mt-8>
-        <panel title="Organisation">
-            <v-card class="my-2" v-for="location in locations" :key="location.name">
+        <panel title="Organisation" :loading="loading">
+            <v-card class="my-2" v-for="location in locations" :key="location.id">
                 <v-toolbar light dense flat>
                     <v-icon left>business</v-icon>
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
-                    <add-department-dialog :location="location"/>
+                    <add-department-dialog :location="location" @success="load" @error="error = true"/>
                     <v-btn icon>
                         <v-icon>more_vert</v-icon>
                     </v-btn>
@@ -14,7 +14,11 @@
                 <v-expansion-panels accordion>
                     <v-expansion-panel v-for="department in location.departmentList"
                                        :key="department.id">
-                        <v-expansion-panel-header>{{ department.name }}</v-expansion-panel-header>
+                        <v-expansion-panel-header>
+                            <template v-slot:default="{ open }">
+                                <span>{{ department.name }}</span>
+                            </template>
+                        </v-expansion-panel-header>
                         <v-expansion-panel-content>
                             <v-list dense>
                                 <v-list-item v-for="employee in department.employeeList" :key="employee.id">
@@ -45,15 +49,22 @@
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>
-                            <add-employee-dialog :department="department"/>
+                            <v-row>
+                                <add-employee-dialog :department="department" @success="load" @error="error = true"/>
+                                <v-spacer/>
+                                <v-btn icon>
+                                    <v-icon>more_vert</v-icon>
+                                </v-btn>
+                            </v-row>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-card>
             <v-container class="pa-2 pl-0">
-                <add-location-dialog @create="createLocation"/>
+                <add-location-dialog @success="load" @error="error = true"/>
             </v-container>
         </panel>
+        <error-snackbar :active="error"/>
     </v-container>
 </template>
 
@@ -62,21 +73,22 @@
     import AddEmployeeDialog from '../components/add-dialogs/AddEmployeeDialog';
     import AddDepartmentDialog from '../components/add-dialogs/AddDepartmentDialog';
     import AddLocationDialog from '../components/add-dialogs/AddLocationDialog';
-    import {EmployeeService, LocationService} from '../services/api/Api';
+    import {DepartmentService, EmployeeService, LocationService} from '../services/api/Api';
+    import ErrorSnackbar from '../components/snackbars/ErrorSnackbar';
 
     export default {
         name: 'Management',
-        components: {AddLocationDialog, AddDepartmentDialog, AddEmployeeDialog, Panel},
+        components: {ErrorSnackbar, AddLocationDialog, AddDepartmentDialog, AddEmployeeDialog, Panel},
         data() {
             return {
+                loading: true,
+                error: false,
                 locations: []
             }
         },
         created() {
-            LocationService.all()
-                .then(response => {
-                    this.locations = response.data
-                })
+            this.loading = true;
+            this.load();
         },
         computed: {
             icon(employee) {
@@ -84,13 +96,28 @@
             }
         },
         methods: {
+            load() {
+                LocationService.all()
+                    .then(response => {
+                        this.locations = response.data;
+                        this.error = false;
+                    })
+                    .catch(() => {
+                        this.error = true;
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    })
+            },
             deleteEmployee(department, employee) {
                 this.$delete(department.employeeList, department.employeeList.indexOf(employee));
-                EmployeeService.delete(employee.id);
-            },
-            createLocation(location) {
-                this.locations.push(location);
-                LocationService.create(location);
+                EmployeeService.delete(employee.id)
+                    .catch(() => {
+                        this.error = true;
+                    })
+                    .finally(() => {
+                        this.load();
+                    })
             }
         }
     }

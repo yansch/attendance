@@ -10,7 +10,19 @@ export const LocationService = {
 };
 
 export const EmployeeService = {
+    allUnassigned() {
+        return Vue.axios.get('/employee/noDepartment')
+    },
+    create(employee) {
+        return Vue.axios.post('/employee', employee)
+    },
     delete(id) {
         return Vue.axios.delete(`/employee/${id}`)
+    }
+};
+
+export const DepartmentService = {
+    create(department) {
+        return Vue.axios.post('/department', department)
     }
 };

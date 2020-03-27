@@ -5,6 +5,7 @@
                 <v-toolbar color="primary" dark dense flat>
                     <v-toolbar-title>{{ title }}</v-toolbar-title>
                 </v-toolbar>
+                <v-progress-linear v-if="loading" indeterminate/>
                 <div class="pl-4 pr-4 pt-2 pb-2">
                     <slot/>
                 </div>
@@ -16,8 +17,9 @@
 <script>
     export default {
         name: 'Panel',
-        props: [
-            'title'
-        ]
+        props: {
+            title: String,
+            loading: Boolean
+        }
     }
 </script>
