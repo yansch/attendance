@@ -38,7 +38,8 @@
                                 employees: [
                                     {
                                         name: 'Jan',
-                                        status: 'office'
+                                        status: 'office',
+                                        permissionLvl: 2
                                     },
                                     {
                                         name: 'Jan',

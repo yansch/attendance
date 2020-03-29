@@ -7,9 +7,20 @@
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
                     <add-department-dialog :location="location" @success="load" @error="error = true"/>
-                    <v-btn icon>
-                        <v-icon>more_vert</v-icon>
-                    </v-btn>
+                    <v-menu top offset-y>
+                        <template v-slot:activator="{ on }">
+                            <v-btn icon v-on="on">
+                                <v-icon>more_vert</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-toolt
+                            <v-list-item :disabled="location.departmentList > 0" @click="deleteLocation(location)">
+                                <v-icon>delete_outline</v-icon>
+                                Löschen
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
                 </v-toolbar>
                 <v-expansion-panels accordion>
                     <v-expansion-panel v-for="department in location.departmentList"
@@ -36,7 +47,7 @@
                                                 </v-btn>
                                             </template>
                                             <v-list>
-                                                <v-list-item @click="">
+                                                <v-list-item @click="removeEmployee(location, department, employee)">
                                                     <v-icon left>remove_circle_outline</v-icon>
                                                     Aus dieser Abteilung entfernen
                                                 </v-list-item>
@@ -49,19 +60,16 @@
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>
-                            <v-row>
+                            <v-row class="pl-2">
                                 <add-employee-dialog :department="department" @success="load" @error="error = true"/>
                                 <v-spacer/>
-                                <v-btn icon>
-                                    <v-icon>more_vert</v-icon>
-                                </v-btn>
                             </v-row>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-card>
             <v-container class="pa-2 pl-0">
-                <add-location-dialog @success="load" @error="error = true"/>
+                <add-location-dialog @success="load" @error="handleError"/>
             </v-container>
         </panel>
         <error-snackbar :active="error"/>
@@ -75,10 +83,12 @@
     import AddLocationDialog from '../components/add-dialogs/AddLocationDialog';
     import {DepartmentService, EmployeeService, LocationService} from '../services/api/Api';
     import ErrorSnackbar from '../components/snackbars/ErrorSnackbar';
+    import error from '../mixins/error.js'
 
     export default {
         name: 'Management',
         components: {ErrorSnackbar, AddLocationDialog, AddDepartmentDialog, AddEmployeeDialog, Panel},
+        mixins: [error],
         data() {
             return {
                 loading: true,
@@ -100,10 +110,9 @@
                 LocationService.all()
                     .then(response => {
                         this.locations = response.data;
-                        this.error = false;
                     })
-                    .catch(() => {
-                        this.error = true;
+                    .catch(e => {
+                        this.handleError(e);
                     })
                     .finally(() => {
                         this.loading = false;
@@ -112,8 +121,28 @@
             deleteEmployee(department, employee) {
                 this.$delete(department.employeeList, department.employeeList.indexOf(employee));
                 EmployeeService.delete(employee.id)
-                    .catch(() => {
-                        this.error = true;
+                    .catch(e => {
+                        this.handleError(e);
+                    })
+                    .finally(() => {
+                        this.load();
+                    })
+            },
+            removeEmployee(location, department, employee) {
+                this.$delete(department.employeeList, department.employeeList.indexOf(employee));
+                department.location = {id: location.id, name: location.name};
+                DepartmentService.update(department)
+                    .catch(e => {
+                        this.handleError(e);
+                    })
+                    .finally(() => {
+                        this.load();
+                    })
+            },
+            deleteLocation(location) {
+                LocationService.delete(location.id)
+                    .catch(e => {
+                        this.handleError(e);
                     })
                     .finally(() => {
                         this.load();

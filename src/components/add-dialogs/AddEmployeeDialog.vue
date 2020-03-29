@@ -26,14 +26,14 @@
                 <v-tab-item>
                     <v-select
                             solo
-                            :disabled="employees.length === 0"
+                            :disabled="freeEmployees.length === 0"
                             persistent-hint
-                            :hint="employees.length > 0 ? null : 'Keine freien Mitarbeiter verfügbar. ' +
+                            :hint="freeEmployees.length > 0 ? null : 'Keine freien Mitarbeiter verfügbar. ' +
                              'Sie können einen neuen Mitarbeiter erstellen oder jemanden aus einer anderen Abteilung entfernen.'"
                             label="Mitarbeiter auswählen"
                             item-text="name"
                             v-model="employeeToAdd"
-                            :items="employees">
+                            :items="freeEmployees">
                     </v-select>
                 </v-tab-item>
                 <v-tab-item>
@@ -41,12 +41,14 @@
                         <v-col xs="8" md="6">
                             <v-text-field
                                     required
+                                    :rules="[rules.required]"
                                     label="Vorname"
                                     v-model="employeeToCreate.firstName"/>
                         </v-col>
                         <v-col xs="8" md="6">
                             <v-text-field
                                     required
+                                    :rules="[rules.required]"
                                     label="Nachname"
                                     v-model="employeeToCreate.lastName"/>
                         </v-col>
@@ -56,6 +58,7 @@
                             <v-text-field
                                     append-icon="email"
                                     required
+                                    :rules="[rules.email, rules.required]"
                                     label="Email"
                                     v-model="employeeToCreate.email"/>
                         </v-col>
@@ -65,6 +68,7 @@
                             <v-text-field
                                     append-icon="lock"
                                     required
+                                    :rules="[rules.required]"
                                     label="Passwort"
                                     v-model="employeeToCreate.password"/>
                         </v-col>
@@ -99,7 +103,8 @@
 
 <script>
     import AddDialog from '../AddDialog';
-    import {dialog} from '../../mixins/dialog';
+    import dialog from '../../mixins/dialog';
+    import {EmployeeService} from '../../services/api/Api';
 
     export default {
         name: 'AddEmployeeDialog',
@@ -111,7 +116,7 @@
         data() {
             return {
                 tab: 0,
-                employees: [],
+                freeEmployees: [],
                 employeeToAdd: null,
                 employeeToCreate: {
                     firstName: '',
@@ -120,16 +125,57 @@
                     password: '',
                     permissionLvl: 1
                 },
+                rules: {
+                    required: value => !!value,
+                    email: value => {
+                        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        return pattern.test(value);
+                    }
+                }
+            }
+        },
+        watch: {
+            active: function (isActive) {
+                if (isActive) {
+                    EmployeeService.allUnassigned()
+                        .then(response => {
+                            this.freeEmployees = response.data;
+                        })
+                }
             }
         },
         methods: {
             createEmployee() {
-                this.close();
+                if (this.tab === 1) {
+                    EmployeeService.create(this.employee)
+                        .then(() => {
+                            this.$emit('success')
+                        })
+                        .catch(() => {
+                            this.$emit('error')
+                        })
+                        .finally(() => {
+                            this.close();
+                        })
+                }
             }
         },
         computed: {
             noEmployeeAvailable() {
                 return this.tab === 0 && this.employeeToAdd == null;
+            },
+            employee() { //employee json body for API request
+                return this.tab === 0 ?
+                    {}
+                    :
+                    {
+                        firstname: this.employeeToCreate.firstName,
+                        lastname: this.employeeToCreate.lastName,
+                        permissionlvl: this.employeeToCreate.permissionLvl - 1,
+                        email: this.employeeToCreate.email,
+                        department: this.department,
+                        passwordhash: this.employeeToCreate.password
+                    }
             }
         }
     }

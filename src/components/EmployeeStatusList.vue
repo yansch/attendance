@@ -1,13 +1,21 @@
 <template>
     <v-container>
         <h2>
-            <v-icon left :color="color">{{ icon }}</v-icon>
+            <v-icon left :color="color">{{ statusIcon }}</v-icon>
             {{ title }}
         </h2>
         <v-divider class="mt-2"/>
         <v-list v-if="employees.length > 0" dense>
             <v-list-item v-for="employee in toBeShown" :key="employee.name">
-                <v-icon left>person</v-icon>
+                <v-badge bottom
+                         overlap
+                         offset-y="12"
+                         offset-x="18"
+                         class="mr-4"
+                         :value="employee.permissionLvl > 0"
+                         :icon="getPermissionIcon(employee)">
+                    <v-icon left>person</v-icon>
+                </v-badge>
                 {{ employee.name }}
             </v-list-item>
         </v-list>
@@ -43,7 +51,7 @@
             title() {
                 return styling.status_names[this.type]
             },
-            icon() {
+            statusIcon() {
                 return styling.status_icons[this.type]
             },
             color() {
@@ -51,6 +59,11 @@
             },
             toBeShown() {
                 return this.showAll ? this.employees : this.employees.slice(0, 5)
+            }
+        },
+        methods: {
+            getPermissionIcon(employee) {
+                return styling.permission_icons[employee.permissionLvl]
             }
         }
     }

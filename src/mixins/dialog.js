@@ -1,4 +1,4 @@
-export const dialog = {
+export default {
     data() {
         return {
             active: false

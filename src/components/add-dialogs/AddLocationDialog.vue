@@ -15,7 +15,7 @@
 <script>
     import AddDialog from '../AddDialog';
     import {LocationService} from '../../services/api/Api';
-    import {dialog} from '../../mixins/dialog';
+    import dialog from '../../mixins/dialog';
 
     export default {
         name: 'AddLocationDialog',
@@ -31,7 +31,7 @@
                 const location = {name: this.name};
                 LocationService.create(location)
                     .then(() => {
-                        this.$emit('success')
+                        this.$emit('error')
                     })
                     .catch(() => {
                         this.$emit('error')

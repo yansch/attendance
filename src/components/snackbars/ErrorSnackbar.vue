@@ -1,12 +1,21 @@
 <template>
-    <v-snackbar color="error" v-if="active">Ein Fehler ist aufgetreten. Bitte versuche es später noch einmal.</v-snackbar>
+    <v-snackbar color="error" :value="!!error">
+        {{ message }}
+    </v-snackbar>
 </template>
 
 <script>
+    import errors from '../../services/errors';
+
     export default {
         name: 'ErrorSnackbar',
         props: {
-            active: Boolean
+            error: String
+        },
+        computed: {
+            message() {
+                return errors[this.error] || 'Ein Fehler ist aufgetreten. Bitte versuche es später noch einmal.'
+            }
         }
     }
 </script>

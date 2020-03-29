@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         token: null,
-        user: null
+        user: null,
+
     },
     mutations: {
         setToken(state, token) {
@@ -34,7 +35,8 @@ export default new Vuex.Store({
     },
     getters: {
         token: state => state.token,
-        user: state => state.user,
+        name: state => `${state.user.firstName} ${state.user.lastName}`,
+        email: state => state.user.email,
         isLoggedIn: state => !!state.token
     }
 })

@@ -3,29 +3,52 @@
         <form @submit.prevent="login">
             <v-text-field append-icon="person" type="email" label="Email" v-model="email"/>
             <v-text-field append-icon="lock" type="password" label="Passwort" v-model="password"/>
-            <v-btn color="primary white--text" type="submit">Anmelden</v-btn>
+            <v-btn :loading="loading" color="primary white--text" type="submit">Anmelden</v-btn>
         </form>
-        <v-alert outlined transition="scale-transition" icon=" " :value="error" type="error">{{ error }}</v-alert>
+        <error-snackbar :error="error"/>
     </panel>
 </template>
 <script>
 
     import Panel from '../components/Panel';
+    import {LoginService} from '../services/api/Api';
+    import ErrorSnackbar from '../components/snackbars/ErrorSnackbar';
+    import error from '../mixins/error.js'
 
     export default {
         name: 'Login',
-        components: {Panel},
+        components: {ErrorSnackbar, Panel},
+        mixins: [error],
         data() {
             return {
                 email: '',
                 password: '',
+                loading: false,
                 error: null
             }
         },
         methods: {
             login() {
-                this.$store.dispatch('login', {token: 'test123', user: {name: 'Test', email: this.email}});
-                this.$router.push('dashboard')
+                this.loading = true;
+                LoginService.login({email: this.email, password: this.password})
+                    .then(response => {
+                        const data = response.data;
+                        this.$store.dispatch('login', {
+                            token: data.token,
+                            user: {
+                                firstName: data.firstname,
+                                lastName: data.lastname,
+                                email: data.email
+                            }
+                        });
+                        this.$router.push('dashboard');
+                    })
+                    .catch(e => {
+                        this.handleError(e);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    })
             }
         }
     }
