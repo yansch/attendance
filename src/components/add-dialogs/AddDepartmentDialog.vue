@@ -14,7 +14,7 @@
 
 <script>
     import AddDialog from '../AddDialog';
-    import {DepartmentService} from '../../services/api/Api';
+    import {DepartmentService} from '../../services/api';
     import dialog from '../../mixins/dialog';
 
     export default {

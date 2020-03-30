@@ -6,7 +6,11 @@
                     <v-icon left>business</v-icon>
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
-                    <add-department-dialog :location="location" @success="load" @error="error = true"/>
+                    <add-department-dialog
+                            v-if="canAddDepartments(location)"
+                            :location="location"
+                            @success="load"
+                            @error="error = true"/>
                     <v-menu top offset-y>
                         <template v-slot:activator="{ on }">
                             <v-btn icon v-on="on">
@@ -14,8 +18,7 @@
                             </v-btn>
                         </template>
                         <v-list>
-                            <v-toolt
-                            <v-list-item :disabled="location.departmentList > 0" @click="deleteLocation(location)">
+                            <v-list-item :disabled="location.departmentList.length > 0" @click="deleteLocation(location)">
                                 <v-icon>delete_outline</v-icon>
                                 Löschen
                             </v-list-item>
@@ -39,7 +42,8 @@
                                     <v-list-item-content>
                                         {{ employee.firstname}} {{employee.lastname}}
                                     </v-list-item-content>
-                                    <v-list-item-action>
+                                    <v-list-item-action
+                                            v-if="employee.id !== $store.getters.user.id || employee.id === 3">
                                         <v-menu open-on-hover top offset-y>
                                             <template v-slot:activator="{ on }">
                                                 <v-btn icon v-on="on">
@@ -60,19 +64,31 @@
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>
-                            <v-row class="pl-2">
+                            <v-row v-if="canAddEmployees(department)" class="pl-2">
                                 <add-employee-dialog :department="department" @success="load" @error="error = true"/>
-                                <v-spacer/>
+                                <v-menu top offset-y>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn small icon v-on="on">
+                                            <v-icon>more_vert</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list>
+                                        <v-list-item @click="deleteDepartment(location, department)">
+                                            <v-icon left>delete_outline</v-icon>
+                                            Abteilung löschen
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
                             </v-row>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-card>
-            <v-container class="pa-2 pl-0">
+            <v-container v-if="$store.getters.user.permissionLvl === 3" class="pa-2 pl-0">
                 <add-location-dialog @success="load" @error="handleError"/>
             </v-container>
         </panel>
-        <error-snackbar :active="error"/>
+        <error-snackbar :error="error"/>
     </v-container>
 </template>
 
@@ -81,7 +97,7 @@
     import AddEmployeeDialog from '../components/add-dialogs/AddEmployeeDialog';
     import AddDepartmentDialog from '../components/add-dialogs/AddDepartmentDialog';
     import AddLocationDialog from '../components/add-dialogs/AddLocationDialog';
-    import {DepartmentService, EmployeeService, LocationService} from '../services/api/Api';
+    import {DepartmentService, EmployeeService, LocationService} from '../services/api';
     import ErrorSnackbar from '../components/snackbars/ErrorSnackbar';
     import error from '../mixins/error.js'
 
@@ -92,18 +108,12 @@
         data() {
             return {
                 loading: true,
-                error: false,
                 locations: []
             }
         },
         created() {
             this.loading = true;
             this.load();
-        },
-        computed: {
-            icon(employee) {
-
-            }
         },
         methods: {
             load() {
@@ -140,6 +150,7 @@
                     })
             },
             deleteLocation(location) {
+                this.$delete(this.locations, this.locations.indexOf(location));
                 LocationService.delete(location.id)
                     .catch(e => {
                         this.handleError(e);
@@ -147,6 +158,32 @@
                     .finally(() => {
                         this.load();
                     })
+            },
+            deleteDepartment(location, department) {
+                this.$delete(location.departmentList, location.departmentList.indexOf(department));
+                DepartmentService.delete(department.id)
+                    .catch(e => {
+                        this.handleError(e);
+                    })
+                    .finally(() => {
+                        this.load();
+                    })
+            },
+            canAddEmployees(department) {
+                const userDepartmentId = this.$store.getters.user.department;
+                const permissionLvl = this.$store.getters.user.permissionLvl;
+                return userDepartmentId === department.id || permissionLvl > 1;
+            },
+            canAddDepartments(location) {
+                const userLocationId = this.$store.getters.user.location;
+                const permissionLvl = this.$store.getters.user.permissionLvl;
+                if (permissionLvl > 1) {
+                    if (permissionLvl > 2) {
+                        return true;
+                    }
+                    return userLocationId === location.id;
+                }
+                return false;
             }
         }
     }

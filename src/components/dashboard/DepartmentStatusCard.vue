@@ -35,8 +35,8 @@
     </v-card>
 </template>
 <script>
-    import AttendanceBar from '../components/AttendanceBar'
-    import EmployeeStatusList from '../components/EmployeeStatusList'
+    import AttendanceBar from '../AttendanceBar'
+    import EmployeeStatusList from './EmployeeStatusList'
 
     export default {
         name: 'DepartmentStatusCard',

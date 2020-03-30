@@ -14,7 +14,12 @@
             </v-list>
             <v-divider/>
             <v-list>
-                <v-list-item active-class="accent--text" v-for="item in items" :key="item.name" :to="item.path">
+                <v-list-item
+                        active-class="primary--text"
+                        v-for="item in items"
+                        :key="item.name"
+                        :to="item.path"
+                        v-if="!item.restricted || $store.getters.user.permissionLvl > 0">
                     <v-list-item-action>
                         <v-icon>{{ item.icon || item.path }}</v-icon>
                     </v-list-item-action>
@@ -56,7 +61,8 @@
                 }, {
                     path: 'management',
                     name: 'Management',
-                    icon: 'account_balance'
+                    icon: 'account_balance',
+                    restricted: true
                 }]
             }
         },

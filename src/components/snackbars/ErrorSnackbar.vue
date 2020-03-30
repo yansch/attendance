@@ -9,9 +9,7 @@
 
     export default {
         name: 'ErrorSnackbar',
-        props: {
-            error: String
-        },
+        props: ['error'],
         computed: {
             message() {
                 return errors[this.error] || 'Ein Fehler ist aufgetreten. Bitte versuche es später noch einmal.'

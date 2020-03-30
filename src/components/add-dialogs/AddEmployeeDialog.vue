@@ -104,7 +104,7 @@
 <script>
     import AddDialog from '../AddDialog';
     import dialog from '../../mixins/dialog';
-    import {EmployeeService} from '../../services/api/Api';
+    import {EmployeeService} from '../../services/api';
 
     export default {
         name: 'AddEmployeeDialog',

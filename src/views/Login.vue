@@ -11,7 +11,7 @@
 <script>
 
     import Panel from '../components/Panel';
-    import {LoginService} from '../services/api/Api';
+    import {LoginService} from '../services/api';
     import ErrorSnackbar from '../components/snackbars/ErrorSnackbar';
     import error from '../mixins/error.js'
 
@@ -38,7 +38,10 @@
                             user: {
                                 firstName: data.firstname,
                                 lastName: data.lastname,
-                                email: data.email
+                                email: data.email,
+                                department: data.department,
+                                location: data.location,
+                                permissionLvl: data.permissionLvl
                             }
                         });
                         this.$router.push('dashboard');

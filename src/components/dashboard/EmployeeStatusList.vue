@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import styling from '../services/styling';
+    import styling from '../../services/styling';
 
     export default {
         name: 'EmployeeStatusList',

@@ -36,5 +36,8 @@ export const DepartmentService = {
     },
     update(department) {
         return Vue.axios.put('/department', department)
+    },
+    delete(id) {
+        return Vue.axios.delete(`/department/${id}`)
     }
 };

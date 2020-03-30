@@ -22,7 +22,7 @@
 
 <script>
     import AttendanceBar from '../components/AttendanceBar';
-    import DepartmentStatusCard from './DepartmentStatusCard';
+    import DepartmentStatusCard from '../components/dashboard/DepartmentStatusCard';
 
     export default {
         name: 'Dashboard',
@@ -43,7 +43,8 @@
                                     },
                                     {
                                         name: 'Jan',
-                                        status: 'office'
+                                        status: 'office',
+                                        permissionLvl: 1
                                     },
                                     {
                                         name: 'Jan',
