@@ -31,7 +31,8 @@
                             :hint="freeEmployees.length > 0 ? null : 'Keine freien Mitarbeiter verfügbar. ' +
                              'Sie können einen neuen Mitarbeiter erstellen oder jemanden aus einer anderen Abteilung entfernen.'"
                             label="Mitarbeiter auswählen"
-                            item-text="name"
+                            :item-text="e => `${e.firstname} ${e.lastname}`"
+                            :item-value="e => e"
                             v-model="employeeToAdd"
                             :items="freeEmployees">
                     </v-select>
@@ -104,7 +105,7 @@
 <script>
     import AddDialog from '../AddDialog';
     import dialog from '../../mixins/dialog';
-    import {EmployeeService} from '../../services/api';
+    import {DepartmentService, EmployeeService} from '../../services/api';
 
     export default {
         name: 'AddEmployeeDialog',
@@ -146,7 +147,20 @@
         },
         methods: {
             createEmployee() {
-                if (this.tab === 1) {
+                if (this.tab === 0) {
+                    let department = this.department;
+                    department.employeeList.push(this.employee);
+                    DepartmentService.update(department)
+                        .then(() => {
+                            this.$emit('success')
+                        })
+                        .catch(() => {
+                            this.$emit('error')
+                        })
+                        .finally(() => {
+                            this.close();
+                        })
+                } else {
                     EmployeeService.create(this.employee)
                         .then(() => {
                             this.$emit('success')
@@ -166,9 +180,8 @@
             },
             employee() { //employee json body for API request
                 return this.tab === 0 ?
-                    {}
-                    :
-                    {
+                    this.employeeToAdd //add existing employee
+                    : { //create new employee
                         firstname: this.employeeToCreate.firstName,
                         lastname: this.employeeToCreate.lastName,
                         permissionlvl: this.employeeToCreate.permissionLvl - 1,

@@ -8,7 +8,7 @@
                 <v-icon>{{ show ? 'expand_less' : 'expand_more' }}</v-icon>
             </v-btn>
         </v-toolbar>
-        <attendance-bar v-if="$store.getters.user.permissionLvl > 0" height="10px" :employees="department.employees"/>
+        <attendance-bar height="10px" :employees="department.employees"/>
         <v-expand-transition>
             <v-card-text v-show="show">
                 <v-layout justify-space-between>

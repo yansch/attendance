@@ -5,7 +5,9 @@ import axios from 'axios';
 import store from './store';
 
 let config = {
-    baseURL: 'http://bhr24.sytes.net:8080/Attendance-war/resources'
+    baseURL: process.env.NODE_ENV === 'production'
+        ? 'http://localhost:8080/Attendance-war/resources'
+        : 'http://bhr24.sytes.net:8080/Attendance-war/resources'
 };
 
 const _axios = axios.create(config);

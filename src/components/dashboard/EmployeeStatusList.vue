@@ -12,7 +12,7 @@
                          offset-y="12"
                          offset-x="18"
                          class="mr-4"
-                         :value="employee.permissionLvl > 0"
+                         :value="employee.permissionlvl > 0"
                          :icon="getPermissionIcon(employee)">
                     <v-icon left>person</v-icon>
                 </v-badge>
@@ -20,7 +20,7 @@
                 <v-spacer/>
                 <v-tooltip v-if="type > 0" bottom>
                     <template v-slot:activator="{ on }">
-                        <v-icon color="grey" dark v-on="on">help</v-icon>
+                        <v-icon v-on="on">help</v-icon>
                     </template>
                     <span>{{ employee.description }}</span>
                 </v-tooltip>
@@ -70,7 +70,7 @@
         },
         methods: {
             getPermissionIcon(employee) {
-                return styling.permission_icons[employee.permissionLvl]
+                return styling.permission_icons[employee.permissionlvl]
             }
         }
     }

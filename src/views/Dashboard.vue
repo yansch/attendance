@@ -7,6 +7,7 @@
                     <v-toolbar-title class="headline">{{ location.name }}</v-toolbar-title>
                 </v-toolbar>
                 <attendance-bar height="15px"
+                                v-if="$store.getters.user.permissionLvl > 0"
                                 :employees="location.departments.flatMap(d => d.employees)"/>
                 <v-card-text>
                     <department-status-card
