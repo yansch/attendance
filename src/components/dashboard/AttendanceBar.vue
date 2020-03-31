@@ -3,22 +3,24 @@
         <v-col v-if="percentages[0] > 0"
                :cols="getBarWidth(0)"
                class="py-0 px-0">
-            <v-sheet tile color="success" :height="height"></v-sheet>
+            <v-sheet tile :color="color(0)" :height="height"></v-sheet>
         </v-col>
         <v-col v-if="percentages[1] > 0"
                :cols="getBarWidth(1)"
                class="py-0 px-0">
-            <v-sheet tile color="accent" :height="height"></v-sheet>
+            <v-sheet tile :color="color(1)" :height="height"></v-sheet>
         </v-col>
         <v-col v-if="percentages[2] > 0"
                :cols="getBarWidth(2)"
                class="py-0 px-0">
-            <v-sheet tile color="error" :height="height"></v-sheet>
+            <v-sheet tile :color="color(2)" :height="height"></v-sheet>
         </v-col>
     </v-row>
 </template>
 
 <script>
+    import styling from '../../services/styling';
+
     export default {
         name: 'AttendanceBar',
         props: {
@@ -26,11 +28,11 @@
             height: String
         },
         methods: {
-            getPercent(type) {
-
-            },
             getBarWidth(type) {
                 return Math.round(12 * this.percentages[type] / 100);
+            },
+            color(type) {
+                return styling.status_colors[type]
             }
         },
         computed: {
@@ -40,7 +42,6 @@
                     const count = this.employees.filter(employee => employee.status === i).length;
                     percentages.push(count / this.employees.length * 100)
                 });
-                console.log(largestRemainderRound(percentages, 100));
                 return largestRemainderRound(percentages, 100)
             }
         }

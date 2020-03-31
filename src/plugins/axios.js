@@ -6,7 +6,7 @@ import store from './store';
 
 let config = {
     baseURL: process.env.NODE_ENV === 'production'
-        ? 'http://localhost:8080/Attendance-war/resources'
+        ?  `${window.location.origin}/Attendance-war/resources`
         : 'http://bhr24.sytes.net:8080/Attendance-war/resources'
 };
 

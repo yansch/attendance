@@ -8,7 +8,6 @@
                     label="Name"
                     v-model="name"/>
         </v-card-text>
-
     </add-dialog>
 </template>
 

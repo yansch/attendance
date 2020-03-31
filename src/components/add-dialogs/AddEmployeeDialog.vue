@@ -84,7 +84,7 @@
                             <v-rating
                                     empty-icon="assignment_ind"
                                     full-icon="assignment_turned_in"
-                                    length="4"
+                                    :length="$store.getters.user.permissionLvl + 1"
                                     v-model="employeeToCreate.permissionLvl"/>
                         </v-col>
                     </v-row>
