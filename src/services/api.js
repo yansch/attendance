@@ -6,6 +6,21 @@ export const LoginService = {
     }
 };
 
+export const StatusService = {
+    get() {
+        return Vue.axios.get('/status')
+    },
+    set(status) {
+        return Vue.axios.post('/status', status)
+    }
+};
+
+export const DashboardService = {
+    get() {
+        return Vue.axios.get('/dashboard')
+    }
+};
+
 export const LocationService = {
     all() {
         return Vue.axios.get('/location/all')

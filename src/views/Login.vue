@@ -23,8 +23,7 @@
             return {
                 email: '',
                 password: '',
-                loading: false,
-                error: null
+                loading: false
             }
         },
         methods: {
@@ -36,6 +35,7 @@
                         this.$store.dispatch('login', {
                             token: data.token,
                             user: {
+                                id: data.id,
                                 firstName: data.firstname,
                                 lastName: data.lastname,
                                 email: data.email,

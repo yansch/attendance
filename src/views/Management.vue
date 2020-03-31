@@ -6,24 +6,26 @@
                     <v-icon left>business</v-icon>
                     <v-toolbar-title>{{ location.name }}</v-toolbar-title>
                     <v-spacer/>
-                    <add-department-dialog
-                            v-if="canAddDepartments(location)"
-                            :location="location"
-                            @success="load"
-                            @error="error = true"/>
-                    <v-menu top offset-y>
-                        <template v-slot:activator="{ on }">
-                            <v-btn icon v-on="on">
-                                <v-icon>more_vert</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-list>
-                            <v-list-item :disabled="location.departmentList.length > 0" @click="deleteLocation(location)">
-                                <v-icon>delete_outline</v-icon>
-                                Löschen
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
+                    <div v-if="canEditDepartments(location)">
+                        <add-department-dialog
+                                :location="location"
+                                @success="load"
+                                @error="error = true"/>
+                        <v-menu v-if="location.id !== $store.getters.user.location" top offset-y>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on">
+                                    <v-icon>more_vert</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-list>
+                                <v-list-item :disabled="location.departmentList.length > 0"
+                                             @click="deleteLocation(location)">
+                                    <v-icon>delete_outline</v-icon>
+                                    Löschen
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+                    </div>
                 </v-toolbar>
                 <v-expansion-panels accordion>
                     <v-expansion-panel v-for="department in location.departmentList"
@@ -43,7 +45,7 @@
                                         {{ employee.firstname}} {{employee.lastname}}
                                     </v-list-item-content>
                                     <v-list-item-action
-                                            v-if="employee.id !== $store.getters.user.id || employee.id === 3">
+                                            v-if="employee.id !== $store.getters.user.id && canEditEmployees(location, department)">
                                         <v-menu open-on-hover top offset-y>
                                             <template v-slot:activator="{ on }">
                                                 <v-btn icon v-on="on">
@@ -64,9 +66,10 @@
                                     </v-list-item-action>
                                 </v-list-item>
                             </v-list>
-                            <v-row v-if="canAddEmployees(department)" class="pl-2">
+                            <v-row v-if="canEditEmployees(location, department)" class="pl-2">
                                 <add-employee-dialog :department="department" @success="load" @error="error = true"/>
-                                <v-menu top offset-y>
+                                <v-menu v-if="department.id !== $store.getters.user.department && canEditDepartments(location)"
+                                        top offset-y>
                                     <template v-slot:activator="{ on }">
                                         <v-btn small icon v-on="on">
                                             <v-icon>more_vert</v-icon>
@@ -169,21 +172,19 @@
                         this.load();
                     })
             },
-            canAddEmployees(department) {
+            canEditEmployees(location, department) {
                 const userDepartmentId = this.$store.getters.user.department;
-                const permissionLvl = this.$store.getters.user.permissionLvl;
-                return userDepartmentId === department.id || permissionLvl > 1;
-            },
-            canAddDepartments(location) {
                 const userLocationId = this.$store.getters.user.location;
                 const permissionLvl = this.$store.getters.user.permissionLvl;
-                if (permissionLvl > 1) {
-                    if (permissionLvl > 2) {
-                        return true;
-                    }
-                    return userLocationId === location.id;
-                }
-                return false;
+                return userDepartmentId === department.id
+                    || (userLocationId === location.id && permissionLvl === 2)
+                    || permissionLvl === 3;
+            },
+            canEditDepartments(location) {
+                const userLocationId = this.$store.getters.user.location;
+                const permissionLvl = this.$store.getters.user.permissionLvl;
+                return (userLocationId === location.id && permissionLvl === 2)
+                    || permissionLvl === 3;
             }
         }
     }

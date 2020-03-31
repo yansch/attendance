@@ -8,7 +8,7 @@
                 <v-icon>{{ show ? 'expand_less' : 'expand_more' }}</v-icon>
             </v-btn>
         </v-toolbar>
-        <attendance-bar height="10px" :employees="department.employees"/>
+        <attendance-bar v-if="$store.getters.user.permissionLvl > 0" height="10px" :employees="department.employees"/>
         <v-expand-transition>
             <v-card-text v-show="show">
                 <v-layout justify-space-between>
@@ -16,17 +16,17 @@
                         <v-col xs12 md4>
                             <employee-status-list
                                     :type="0"
-                                    :employees="department.employees.filter(e => e.status === 'office')"/>
+                                    :employees="department.employees.filter(e => e.status === 0)"/>
                         </v-col>
                         <v-col xs12 md4>
                             <employee-status-list
                                     :type="1"
-                                    :employees="department.employees.filter(e => e.status === 'home_office')"/>
+                                    :employees="department.employees.filter(e => e.status === 1)"/>
                         </v-col>
                         <v-col xs12 md4>
                             <employee-status-list
                                     :type="2"
-                                    :employees="department.employees.filter(e => e.status === 'absent')"/>
+                                    :employees="department.employees.filter(e => e.status === 2)"/>
                         </v-col>
                     </v-row>
                 </v-layout>
@@ -35,7 +35,7 @@
     </v-card>
 </template>
 <script>
-    import AttendanceBar from '../AttendanceBar'
+    import AttendanceBar from './AttendanceBar'
     import EmployeeStatusList from './EmployeeStatusList'
 
     export default {

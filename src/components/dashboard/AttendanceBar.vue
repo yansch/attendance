@@ -1,17 +1,17 @@
 <template>
     <v-row class="px-3">
-        <v-col v-if="getPercent('office') > 0"
-               :cols="getBarWidth('office')"
+        <v-col v-if="getPercent(0) > 0"
+               :cols="getBarWidth(0)"
                class="py-0 px-0">
             <v-sheet tile color="success" :height="height"></v-sheet>
         </v-col>
-        <v-col v-if="getPercent('home_office') > 0"
-               :cols="getBarWidth('home_office')"
+        <v-col v-if="getPercent(1) > 0"
+               :cols="getBarWidth(1)"
                class="py-0 px-0">
             <v-sheet tile color="accent" :height="height"></v-sheet>
         </v-col>
-        <v-col v-if="getPercent('absent') > 0"
-               :cols="getBarWidth('absent')"
+        <v-col v-if="getPercent(2) > 0"
+               :cols="getBarWidth(2)"
                class="py-0 px-0">
             <v-sheet tile color="error" :height="height"></v-sheet>
         </v-col>
@@ -31,7 +31,6 @@
                 return count / this.employees.length;
             },
             getBarWidth(type) {
-                console.log(type + ': ' + 12 * this.getPercent(type));
                 return Math.floor(12 * this.getPercent(type));
             }
         }

@@ -6,7 +6,7 @@
         </h2>
         <v-divider class="mt-2"/>
         <v-list v-if="employees.length > 0" dense>
-            <v-list-item v-for="employee in toBeShown" :key="employee.name">
+            <v-list-item v-for="employee in toBeShown" :key="employee.id">
                 <v-badge bottom
                          overlap
                          offset-y="12"
@@ -16,7 +16,14 @@
                          :icon="getPermissionIcon(employee)">
                     <v-icon left>person</v-icon>
                 </v-badge>
-                {{ employee.name }}
+                {{ employee.firstname }} {{ employee.lastname }}
+                <v-spacer/>
+                <v-tooltip v-if="type > 0" bottom>
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="grey" dark v-on="on">help</v-icon>
+                    </template>
+                    <span>{{ employee.description }}</span>
+                </v-tooltip>
             </v-list-item>
         </v-list>
         <v-icon v-else class="mx-4 mt-4">remove</v-icon>
