@@ -13,17 +13,17 @@
             <v-card-text v-show="show">
                 <v-layout justify-space-between>
                     <v-row>
-                        <v-col xs12 md4>
+                        <v-col cols="12" md="4">
                             <employee-status-list
                                     :type="0"
                                     :employees="department.employees.filter(e => e.status === 0)"/>
                         </v-col>
-                        <v-col xs12 md4>
+                        <v-col cols="12" md="4">
                             <employee-status-list
                                     :type="1"
                                     :employees="department.employees.filter(e => e.status === 1)"/>
                         </v-col>
-                        <v-col xs12 md4>
+                        <v-col cols="12" md="4">
                             <employee-status-list
                                     :type="2"
                                     :employees="department.employees.filter(e => e.status === 2)"/>

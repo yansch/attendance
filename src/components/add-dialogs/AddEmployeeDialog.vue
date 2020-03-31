@@ -34,8 +34,7 @@
                             :item-text="e => `${e.firstname} ${e.lastname}`"
                             :item-value="e => e"
                             v-model="employeeToAdd"
-                            :items="freeEmployees">
-                    </v-select>
+                            :items="freeEmployees"/>
                 </v-tab-item>
                 <v-tab-item>
                     <v-row>
@@ -85,15 +84,15 @@
                                     empty-icon="assignment_ind"
                                     full-icon="assignment_turned_in"
                                     :length="$store.getters.user.permissionLvl + 1"
-                                    v-model="employeeToCreate.permissionLvl"/>
+                                    v-model="permissionLvl"/>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col xs="11">
-                            <span v-if="employeeToCreate.permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
-                            <span v-if="employeeToCreate.permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
-                            <span v-if="employeeToCreate.permissionLvl > 2"> und Standortsleiter</span>
-                            <span v-if="employeeToCreate.permissionLvl > 3"> und Administrator</span>
+                            <span v-if="permissionLvl === 1">Der Mitarbeiter ist ein normaler Angestellter</span>
+                            <span v-if="permissionLvl > 1">Der Mitarbeiter ist ein Abteilungsleiter</span>
+                            <span v-if="permissionLvl > 2"> und Standortsleiter</span>
+                            <span v-if="permissionLvl > 3"> und Administrator</span>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -123,9 +122,9 @@
                     firstName: '',
                     lastName: '',
                     email: '',
-                    password: '',
-                    permissionLvl: 1
+                    password: ''
                 },
+                permissionLvl: 1,
                 rules: {
                     required: value => !!value,
                     email: value => {
@@ -149,7 +148,13 @@
             createEmployee() {
                 if (this.tab === 0) {
                     let department = this.department;
-                    department.employeeList.push(this.employee);
+                    const employee = {
+                        firstname: this.employeeToAdd.firstname,
+                        lastname: this.employeeToAdd.lastname,
+                        permissionlvl: this.permissionLvl - 1,
+                        id: this.employeeToAdd.id
+                    };
+                    department.employeeList.push(employee);
                     DepartmentService.update(department)
                         .then(() => {
                             this.$emit('success')
@@ -161,7 +166,15 @@
                             this.close();
                         })
                 } else {
-                    EmployeeService.create(this.employee)
+                    const employee = {
+                        firstname: this.employeeToCreate.firstName,
+                        lastname: this.employeeToCreate.lastName,
+                        permissionlvl: this.permissionLvl - 1,
+                        email: this.employeeToCreate.email,
+                        department: this.department,
+                        passwordhash: this.employeeToCreate.password
+                    };
+                    EmployeeService.create(employee)
                         .then(() => {
                             this.$emit('success')
                         })
@@ -177,18 +190,6 @@
         computed: {
             noEmployeeAvailable() {
                 return this.tab === 0 && this.employeeToAdd == null;
-            },
-            employee() { //employee json body for API request
-                return this.tab === 0 ?
-                    this.employeeToAdd //add existing employee
-                    : { //create new employee
-                        firstname: this.employeeToCreate.firstName,
-                        lastname: this.employeeToCreate.lastName,
-                        permissionlvl: this.employeeToCreate.permissionLvl - 1,
-                        email: this.employeeToCreate.email,
-                        department: this.department,
-                        passwordhash: this.employeeToCreate.password
-                    }
             }
         }
     }
